@@ -1,0 +1,17 @@
+version: '3.2'
+services:
+  WMS-OPP-PG:
+    image: postgres:13.2
+    container_name: "API-PIX-PG"
+    environment:
+      - POSTGRES_DB=apipix
+      - POSTGRES_USER=apipix
+      - TZ=GMT
+      - POSTGRES_PASSWORD=apipix1609
+    ports:
+      - 5432:5432
+    networks:
+      - apipix-network
+networks:
+  apipix-network:
+    driver: bridge
