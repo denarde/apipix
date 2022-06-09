@@ -1,27 +1,20 @@
-package com.denarde.apipix.domain.entity;
+package com.denarde.apipix.rest.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-public class ReceivedPix {
+public class ReceivedPixDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
-    private Integer id;
-
-    @Column
+    @NotBlank(message = "{field.key.mandatory}")
     private String key;
 
-    @Column
+    @NotNull(message = "{field.value.mandatory}")
     private Double value;
 }

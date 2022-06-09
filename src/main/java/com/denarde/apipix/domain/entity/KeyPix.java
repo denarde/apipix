@@ -6,6 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 
 @Data
@@ -20,9 +23,11 @@ public class KeyPix {
     private Integer id;
 
     @Column(nullable = false, unique = true)
+    @NotBlank(message = "{field.key.mandatory}")
     private String key;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
+    @NotNull(message = "{field.keyType.mandatory}")
     private KeyType keyType;
 }
