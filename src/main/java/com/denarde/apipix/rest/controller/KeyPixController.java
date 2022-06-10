@@ -2,6 +2,8 @@ package com.denarde.apipix.rest.controller;
 
 import com.denarde.apipix.domain.entity.KeyPix;
 import com.denarde.apipix.domain.repository.KeysPix;
+import com.denarde.apipix.exception.RuleBusinessException;
+import com.denarde.apipix.utils.Validation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +22,9 @@ public class KeyPixController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public KeyPix save(@RequestBody @Valid KeyPix keyPix) {
+
+        entryValidate(keyPix);
+
         return repository.save(keyPix);
     }
 
@@ -27,6 +32,9 @@ public class KeyPixController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@PathVariable Integer id,
                        @RequestBody @Valid KeyPix keyPix) {
+
+        entryValidate(keyPix);
+
         repository
                 .findById(id)
                 .map(p -> {
@@ -63,6 +71,19 @@ public class KeyPixController {
     @GetMapping
     public List<KeyPix> getAll() {
         return repository.findAll();
+
+    }
+
+    private void entryValidate(KeyPix keyPix) {
+
+        if (!Validation.isValidKey(keyPix)) {
+            throw new RuleBusinessException("Invalid Key.");
+        }
+
+        if (repository.existsByKey(keyPix.getKey())) {
+            throw new RuleBusinessException("Key already exists.");
+        }
+
 
     }
 
