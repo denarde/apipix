@@ -1,4 +1,4 @@
-# apipix
+# API de PIX
 API rest for the backoffice team to manage Pix transactions.
 
 ### Build : 
