@@ -7,6 +7,7 @@ import com.denarde.apipix.domain.repository.ReceivedsPix;
 import com.denarde.apipix.exception.RuleBusinessException;
 import com.denarde.apipix.rest.dto.ReceivedPixDTO;
 import com.denarde.apipix.utils.Validation;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
+@Api("Received Pix API")
 @RequestMapping("/api/receivedPix")
 public class ReceivedPixController {
 

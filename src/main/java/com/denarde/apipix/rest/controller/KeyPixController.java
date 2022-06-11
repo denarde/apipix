@@ -4,6 +4,8 @@ import com.denarde.apipix.domain.entity.KeyPix;
 import com.denarde.apipix.domain.repository.KeysPix;
 import com.denarde.apipix.exception.RuleBusinessException;
 import com.denarde.apipix.utils.Validation;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
