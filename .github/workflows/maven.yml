@@ -25,4 +25,4 @@ jobs:
         cache: maven
         files: ./jacoco.xml
     - name: Build with Maven
-      run: mvn -B package --file pom.xml
+      run: mvn -B package --file pom.xml && curl -Os https://uploader.codecov.io/latest/linux/codecov chmod +x codecov ./codecov
