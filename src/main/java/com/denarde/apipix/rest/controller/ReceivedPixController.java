@@ -29,11 +29,12 @@ public class ReceivedPixController {
 
         entryValidate(receivedPixDTO);
 
-        KeyPix keyPix = keysPixRepository.getByKey(receivedPixDTO.getKey()).orElseThrow(() ->
-                new RuleBusinessException("key not registered at the institution Will Bank."));
+        if(!keysPixRepository.existsByKey(receivedPixDTO.getKey())){
+            throw new RuleBusinessException("key not registered at the institution Will Bank.");
+        }
 
         ReceivedPix receivedPix = new ReceivedPix();
-        receivedPix.setKey(keyPix.getKey());
+        receivedPix.setKey(receivedPixDTO.getKey());
         receivedPix.setValue(receivedPixDTO.getValue());
         receivedsPixrepository.save(receivedPix);
 

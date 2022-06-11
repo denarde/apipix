@@ -2,6 +2,7 @@ package com.denarde.apipix.domain.entity;
 
 import com.denarde.apipix.domain.enums.KeyType;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +14,7 @@ import javax.validation.constraints.NotNull;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Entity
 public class KeyPix {
 
@@ -21,7 +23,7 @@ public class KeyPix {
     @Column
     private Integer id;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "chave", nullable = false)
     @NotBlank(message = "{field.key.mandatory}")
     private String key;
 

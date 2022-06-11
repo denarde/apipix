@@ -41,7 +41,7 @@ public class ApplicationControllerAdvice {
     }
 
     @ExceptionHandler(ResponseStatusException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     public ApiErrors handleResponseStatusException(ResponseStatusException ex) {
         return new ApiErrors(ex.getMessage());
     }
