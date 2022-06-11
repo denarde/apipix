@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -42,8 +43,7 @@ public class KeyPixController {
                     repository.save(keyPix);
                     return keyPix;
                 }).orElseThrow(() ->
-                new ResponseStatusException(HttpStatus.NOT_FOUND,
-                        "keyPix Not Found."));
+                new EntityNotFoundException("keyPix Not Found."));
     }
 
     @DeleteMapping("{id}")
@@ -55,8 +55,7 @@ public class KeyPixController {
                     repository.delete(p);
                     return Void.TYPE;
                 }).orElseThrow(() ->
-                new ResponseStatusException(HttpStatus.NOT_FOUND,
-                        "keyPix Not Found."));
+                new EntityNotFoundException("keyPix Not Found."));
     }
 
     @GetMapping("{id}")
@@ -64,8 +63,7 @@ public class KeyPixController {
         return repository
                 .findById(id)
                 .orElseThrow(() ->
-                        new ResponseStatusException(HttpStatus.NOT_FOUND,
-                                "keyPix Not Found."));
+                        new EntityNotFoundException("keyPix Not Found."));
     }
 
     @GetMapping

@@ -72,6 +72,54 @@ public class KeyPixControllerTest {
     }
 
     @Test
+    @DisplayName("not save keyPix because key empty in json.")
+    public void notSaveKeyPixJsonEmptyKeyTest() throws Exception {
+
+        KeyPix keyPix = KeyPix.builder().keyType(KeyType.CPF).build();
+
+        BDDMockito.given(keysPixRepository.save(Mockito.any(KeyPix.class))).willReturn(keyPix);
+
+        String json = new ObjectMapper().writeValueAsString(keyPix);
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .post(KEY_PIX_API)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(json);
+
+        mvc
+                .perform(request)
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("errors").value("{field.key.mandatory}"));
+
+    }
+
+    @Test
+    @DisplayName("not save keyPix because keyType empty in json.")
+    public void notSaveKeyPixJsonEmptyKeyTypeTest() throws Exception {
+
+        KeyPix keyPix = KeyPix.builder().key("41634836838").build();
+
+        BDDMockito.given(keysPixRepository.save(Mockito.any(KeyPix.class))).willReturn(keyPix);
+
+        String json = new ObjectMapper().writeValueAsString(keyPix);
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .post(KEY_PIX_API)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(json);
+
+        mvc
+                .perform(request)
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("errors").value("{field.keyType.mandatory}"));
+
+    }
+
+
+
+    @Test
     @DisplayName("not save keyPix because cpf invalid.")
     public void notSaveKeyInvalidCpfPixTest() throws Exception {
 
