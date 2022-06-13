@@ -38,7 +38,7 @@ public class ApplicationControllerAdvice {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiErrors handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
-        return new ApiErrors(Objects.requireNonNull(ex.getMessage()).contains("KeyType") ? "{field.keyType.invalid}" : ex.getMessage());
+        return new ApiErrors("{field.keyType.invalid}");
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
