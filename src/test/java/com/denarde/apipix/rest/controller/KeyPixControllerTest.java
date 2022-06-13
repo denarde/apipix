@@ -1,20 +1,16 @@
 package com.denarde.apipix.rest.controller;
 
 import com.denarde.apipix.domain.entity.KeyPix;
-import com.denarde.apipix.domain.entity.ReceivedPix;
 import com.denarde.apipix.domain.enums.KeyType;
 import com.denarde.apipix.domain.repository.KeysPix;
-import com.denarde.apipix.domain.repository.ReceivedsPix;
-import com.denarde.apipix.rest.dto.ReceivedPixDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hamcrest.Matchers;
+import net.minidev.json.JSONObject;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.BDDMockito;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -72,6 +68,34 @@ public class KeyPixControllerTest {
     }
 
     @Test
+    @DisplayName("not save keyPix because KeyType is invalid.")
+    public void notSaveKeyPixJsonInvalidKeyTypeTest() throws Exception {
+
+
+        JSONObject invalidKeyPix = new JSONObject();
+        invalidKeyPix.put("key", "41634836838");
+        invalidKeyPix.put("keyType", "");
+
+        KeyPix keyPix = KeyPix.builder().key("41634836838").keyType((KeyType.CPF)).build();
+
+        BDDMockito.given(keysPixRepository.save(Mockito.any(KeyPix.class))).willReturn(keyPix);
+
+        String json = new ObjectMapper().writeValueAsString(invalidKeyPix);
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .post(KEY_PIX_API)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(json);
+
+        mvc
+                .perform(request)
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("errors").value("{field.keyType.invalid}"));
+
+    }
+
+    @Test
     @DisplayName("not save keyPix because key empty in json.")
     public void notSaveKeyPixJsonEmptyKeyTest() throws Exception {
 
@@ -116,7 +140,6 @@ public class KeyPixControllerTest {
                 .andExpect(jsonPath("errors").value("{field.keyType.mandatory}"));
 
     }
-
 
 
     @Test
@@ -265,7 +288,6 @@ public class KeyPixControllerTest {
                 .andExpect(status().isNotFound());
 
     }
-
 
 
     @Test
